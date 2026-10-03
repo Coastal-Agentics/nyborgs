@@ -1,6 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Nye Warburton
+# SPDX-License-Identifier: MIT
 # Writes ../nyborgs.svg: three Nyborgs for the splash header.
 # Art reused (copied, unchanged colours) from the Nyborg mockup generator
-# /workspace/blitzwing-check/nyborg/gen.py (revision 3: 2-4 yarn strands, no mouth).
+# starscream-agentics/arena tools/nyborg/gen.py (revision 3: 2-4 yarn strands, no mouth).
 import math, os
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'nyborgs.svg')
 HEAD = '#EADFCB'; LINE = '#5E544B'; EYE = '#2F2A26'
