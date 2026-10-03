@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Starscream Agentics</title>
+  <meta name="description" content="Starscream Agentics: simulations where Nyborgs learn to play. Customize a match or watch Tank Arena live in your browser.">
+  <meta name="theme-color" content="#EEF2F6">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Static page: no build step, no framework, no trackers. Palette follows coastal-agentics.github.io. -->
+  <style>
+    :root {
+      --ink: #1F3147;
+      --ink-soft: #4F6277;
+      --bg: #EEF2F6;
+      --bg-deep: #E2E8EF;
+      --surface: #F7F9FB;
+      --steel: #436A95;
+      --steel-light: #5F88B7;
+      --steel-dark: #34557B;
+      --line: #D3DCE6;
+      --radius: 14px;
+      --max: 60rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--ink); text-decoration-color: var(--steel-light); text-underline-offset: 3px; }
+    a:hover { color: var(--steel-dark); }
+    a:focus-visible { outline: 2px solid var(--steel-light); outline-offset: 3px; border-radius: 6px; }
+    .wrap { width: min(100% - 3rem, var(--max)); margin-inline: auto; }
+
+    header { padding-block: clamp(3rem, 9vw, 6rem) clamp(2rem, 5vw, 3rem); }
+    .hero { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 6vw, 3.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+    .lede { margin: 1rem 0 0; font-size: 1.2rem; color: var(--ink-soft); }
+    .art { flex: 0 0 auto; width: min(300px, 40vw); height: auto; }
+
+    main { flex: 1; padding-bottom: clamp(3rem, 7vw, 5rem); }
+    .cards {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; gap: 1.25rem;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .card {
+      position: relative;
+      display: flex; flex-direction: column;
+      height: 100%;
+      padding: 1.5rem 1.5rem 1.35rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    }
+    .card h2 { margin: 0 0 0.5rem; font-size: 1.2rem; line-height: 1.3; }
+    .card p { margin: 0; color: var(--ink-soft); font-size: 0.98rem; }
+    .card .go {
+      margin-top: auto; padding-top: 1.25rem;
+      font-size: 0.92rem; font-weight: 600; color: var(--steel);
+    }
+    /* Whole card is the link target. */
+    .card a { text-decoration: none; }
+    .card a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+    .card.link:hover {
+      border-color: var(--steel-light);
+      box-shadow: 0 6px 20px rgba(31, 49, 71, 0.08);
+      transform: translateY(-2px);
+    }
+    .card.link:focus-within { border-color: var(--steel-light); }
+    .card.soon { background: var(--bg-deep); border-style: dashed; }
+    .card.soon h2 { color: var(--ink-soft); }
+    .badge {
+      align-self: flex-start;
+      margin-top: auto;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
+      color: var(--ink-soft);
+    }
+    .soon p { margin-bottom: 1.25rem; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding-block: 1.5rem 2rem;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+    }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between; }
+    footer nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+    footer a { color: var(--ink-soft); }
+
+    @media (max-width: 760px) {
+      .cards { grid-template-columns: 1fr; }
+      .hero { flex-direction: column-reverse; align-items: flex-start; gap: 1.25rem; }
+      .art { width: 220px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card.link:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1>Starscream Agentics</h1>
+        <p class="lede">Simulations where Nyborgs learn to play.</p>
+      </div>
+      <img class="art" src="nyborgs.svg" width="300" height="122" alt="Three Nyborgs: round cream heads, two dot eyes, and red, blue and yellow yarn hair.">
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+    <ul class="cards">
+      <li>
+        <div class="card link">
+          <h2><a href="https://starscream-agentics.github.io/arena/arena.html?tab=customize">Customize your Nyborg</a></h2>
+          <p>Pick a behavior and a build, set the seed, then watch the match. Every setup gets a link you can share.</p>
+          <span class="go" aria-hidden="true">Open Customize →</span>
+        </div>
+      </li>
+      <li>
+        <div class="card link">
+          <h2><a href="https://starscream-agentics.github.io/arena/arena.html">Tank Arena</a></h2>
+          <p>Watch a live tank match in your browser.</p>
+          <span class="go" aria-hidden="true">Watch now →</span>
+        </div>
+      </li>
+      <li>
+        <div class="card soon">
+          <h2>Racing</h2>
+          <p>A second game for Nyborgs. Not built yet.</p>
+          <span class="badge">Coming soon</span>
+        </div>
+      </li>
+    </ul>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Starscream Agentics</span>
+      <nav aria-label="Links">
+        <a href="https://coastal-agentics.github.io">Coastal Agentics</a>
+        <a href="https://starscream-agentics.github.io/arena/fieldnotes.html">Field notes</a>
+        <a href="https://github.com/starscream-agentics">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
