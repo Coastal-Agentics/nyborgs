@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Nye Warburton
+# SPDX-License-Identifier: MIT
 # Screenshots the splash and checks the live Customize / Tank Arena links in headless Chromium.
 import http.server, threading, functools, os, sys
 from playwright.sync_api import sync_playwright
