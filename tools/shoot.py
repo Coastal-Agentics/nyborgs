@@ -19,13 +19,15 @@ with sync_playwright() as p:
         ctx.close()
     # live link checks
     pg = b.new_page()
-    for url in ['https://starscream-agentics.github.io/arena/arena.html?tab=customize',
-                'https://starscream-agentics.github.io/arena/arena.html']:
+    for url in ['https://coastal-agentics.github.io/arena/arena.html?tab=customize',
+                'https://coastal-agentics.github.io/arena/arena.html',
+                'https://coastal-agentics.github.io/arena/arena.html?game=racing']:
         resp = pg.goto(url); pg.wait_for_timeout(2500)
         st = pg.evaluate("""() => ({
           customizeSelected: document.getElementById('tab-customize')?.getAttribute('aria-selected'),
           customizeHidden: document.getElementById('panel-customize')?.hidden,
           watchSelected: document.getElementById('tab-watch')?.getAttribute('aria-selected'),
+          game: document.querySelector('.game.on')?.dataset.game,
           url: location.href, title: document.title })""")
         print(resp.status, st)
     b.close()

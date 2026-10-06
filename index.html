@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Starscream Agentics</title>
-  <meta name="description" content="Starscream Agentics: simulations where Nyborgs learn to play. Customize a match or watch Tank Arena live in your browser.">
+  <title>Nyborgs · A Coastal Agentics project</title>
+  <meta name="description" content="Nyborgs, a Coastal Agentics project: customizable agents with round cream heads, dot eyes and chunky yarn hair. Every Nyborg gets the same point budget; watch them in Tank Arena and kart racing, live in your browser.">
   <meta name="theme-color" content="#EEF2F6">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <!-- Static page: no build step, no framework, no trackers. Palette follows coastal-agentics.github.io. -->
+  <script src="flock.js" defer></script>
+  <!-- Static page: no build step, no framework, no trackers. Theme tokens follow coastal-agentics.github.io/style.css. -->
   <style>
     :root {
       --ink: #1F3147;
@@ -15,153 +16,162 @@
       --bg: #EEF2F6;
       --bg-deep: #E2E8EF;
       --surface: #F7F9FB;
-      --steel: #436A95;
-      --steel-light: #5F88B7;
-      --steel-dark: #34557B;
+      --c: #436A95;          /* logo C: harbor steel */
+      --a: #5F88B7;          /* logo A: light steel */
+      --overlap: #34557B;    /* logo overlap: accent text */
       --line: #D3DCE6;
       --radius: 14px;
-      --max: 60rem;
+      --max: 68rem;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--bg);
-      color: var(--ink);
-      font-size: 1.0625rem;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+      background: var(--bg); color: var(--ink);
+      font-size: 1.0625rem; line-height: 1.65; -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--ink); text-decoration-color: var(--steel-light); text-underline-offset: 3px; }
-    a:hover { color: var(--steel-dark); }
-    a:focus-visible { outline: 2px solid var(--steel-light); outline-offset: 3px; border-radius: 6px; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: var(--ink); text-decoration-color: var(--a); text-underline-offset: 3px; }
+    a:hover { color: var(--overlap); }
+    a:focus-visible { outline: 2px solid var(--a); outline-offset: 3px; border-radius: 6px; }
     .wrap { width: min(100% - 3rem, var(--max)); margin-inline: auto; }
 
-    header { padding-block: clamp(3rem, 9vw, 6rem) clamp(2rem, 5vw, 3rem); }
-    .hero { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-    h1 {
-      margin: 0;
-      font-size: clamp(2.1rem, 6vw, 3.5rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      font-weight: 700;
-    }
-    .lede { margin: 1rem 0 0; font-size: 1.2rem; color: var(--ink-soft); }
-    .art { flex: 0 0 auto; width: min(300px, 40vw); height: auto; }
+    /* Shared Coastal Agentics header (same pattern on /, /nyborgs/ and /arena/) */
+    .site-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 1.5rem; }
+    .site-header .brand img { width: 206px; height: 40px; }
+    .site-header nav { display: flex; gap: 1.5rem; font-size: 0.95rem; }
+    .site-header nav a { text-decoration: none; color: var(--ink-soft); white-space: nowrap; }
+    .site-header nav a:hover { color: var(--ink); }
+    .site-header nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+
+    .eyebrow { margin: 0 0 1rem; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--overlap); font-weight: 600; }
+    .hero { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding-block: clamp(2.5rem, 8vw, 5rem) clamp(2rem, 5vw, 3rem); }
+    h1 { margin: 0; font-size: clamp(2.25rem, 6vw, 4rem); line-height: 1.08; letter-spacing: -0.02em; font-weight: 700; }
+    .lede { max-width: 34rem; margin: 1.25rem 0 0; font-size: 1.2rem; color: var(--ink-soft); }
+    .art { flex: 0 0 auto; width: min(340px, 40vw); height: auto; }
 
     main { flex: 1; padding-bottom: clamp(3rem, 7vw, 5rem); }
-    .cards {
-      list-style: none; margin: 0; padding: 0;
-      display: grid; gap: 1.25rem;
-      grid-template-columns: repeat(3, 1fr);
-    }
+    .section { padding-block: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--line); }
+    h2 { margin: 0 0 1.5rem; font-size: clamp(1.4rem, 3vw, 1.9rem); letter-spacing: -0.01em; line-height: 1.2; }
+    h2::before { content: ""; display: block; width: 2.5rem; height: 4px; margin-bottom: 1rem; border-radius: 2px; background: var(--a); }
+    .traits { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem 3rem; grid-template-columns: repeat(3, 1fr); }
+    .traits li { padding-top: 1rem; border-top: 2px solid var(--a); color: var(--ink-soft); }
+    .traits strong { display: block; color: var(--ink); margin-bottom: 0.25rem; }
+
+    .cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(3, 1fr); }
     .card {
-      position: relative;
-      display: flex; flex-direction: column;
-      height: 100%;
+      position: relative; display: flex; flex-direction: column; height: 100%;
       padding: 1.5rem 1.5rem 1.35rem;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
       transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
     }
-    .card h2 { margin: 0 0 0.5rem; font-size: 1.2rem; line-height: 1.3; }
+    .card-tag { margin: 0 0 0.5rem; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--overlap); }
+    .card h3 { margin: 0 0 0.5rem; font-size: 1.2rem; line-height: 1.3; }
     .card p { margin: 0; color: var(--ink-soft); font-size: 0.98rem; }
-    .card .go {
-      margin-top: auto; padding-top: 1.25rem;
-      font-size: 0.92rem; font-weight: 600; color: var(--steel);
-    }
+    .card .go { margin-top: auto; padding-top: 1.25rem; font-size: 0.92rem; font-weight: 600; color: var(--c); }
     /* Whole card is the link target. */
-    .card a { text-decoration: none; }
-    .card a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
-    .card.link:hover {
-      border-color: var(--steel-light);
-      box-shadow: 0 6px 20px rgba(31, 49, 71, 0.08);
-      transform: translateY(-2px);
-    }
-    .card.link:focus-within { border-color: var(--steel-light); }
-    .card.soon { background: var(--bg-deep); border-style: dashed; }
-    .card.soon h2 { color: var(--ink-soft); }
-    .badge {
-      align-self: flex-start;
-      margin-top: auto;
-      padding: 0.2rem 0.65rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--surface);
-      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
-      color: var(--ink-soft);
-    }
-    .soon p { margin-bottom: 1.25rem; }
+    .card h3 a { text-decoration: none; }
+    .card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+    .card:hover { border-color: var(--a); box-shadow: 0 6px 20px rgba(31, 49, 71, 0.08); transform: translateY(-2px); }
+    .card:focus-within { border-color: var(--a); }
+    .more { margin: 1.5rem 0 0; color: var(--ink-soft); }
+    .prose { max-width: 40rem; }
+    .prose p { margin: 0 0 1rem; color: var(--ink-soft); }
 
-    footer {
-      border-top: 1px solid var(--line);
-      padding-block: 1.5rem 2rem;
-      font-size: 0.92rem;
-      color: var(--ink-soft);
-    }
-    footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between; }
-    footer nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
-    footer a { color: var(--ink-soft); }
+    /* Shared footer */
+    .site-footer { border-top: 1px solid var(--line); background: var(--bg-deep); font-size: 0.92rem; }
+    .footer-inner { padding-block: 2.25rem; display: grid; gap: 0.75rem; justify-items: start; }
+    .site-footer p { margin: 0; color: var(--ink-soft); }
+    .footer-brand { display: flex; align-items: center; gap: 0.75rem; color: var(--ink) !important; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+    .legal-line { font-size: 0.85rem; }
 
     @media (max-width: 760px) {
-      .cards { grid-template-columns: 1fr; }
+      .cards, .traits { grid-template-columns: 1fr; }
       .hero { flex-direction: column-reverse; align-items: flex-start; gap: 1.25rem; }
-      .art { width: 220px; }
+      .art { width: 240px; }
     }
-    @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card.link:hover { transform: none; } }
+    @media (max-width: 480px) {
+      body { font-size: 1rem; }
+      .site-header .brand img { width: 165px; height: 32px; }
+      .site-header nav { gap: 0.35rem 1rem; flex-wrap: wrap; font-size: 0.9rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap hero">
-      <div>
-        <h1>Starscream Agentics</h1>
-        <p class="lede">Simulations where Nyborgs learn to play.</p>
-      </div>
-      <img class="art" src="nyborgs.svg" width="300" height="122" alt="Three Nyborgs: round cream heads, two dot eyes, and red, blue and yellow yarn hair.">
-    </div>
+  <header class="site-header wrap">
+    <a class="brand" href="/" aria-label="Coastal Agentics home"><img src="logo-wordmark.svg" alt="Coastal Agentics" width="206" height="40"></a>
+    <nav aria-label="Coastal Agentics">
+      <a href="/">Home</a>
+      <a href="/nyborgs/" aria-current="page">Nyborgs</a>
+      <a href="/arena/">Arena</a>
+    </nav>
   </header>
 
   <main>
-    <div class="wrap">
-    <ul class="cards">
-      <li>
-        <div class="card link">
-          <h2><a href="https://starscream-agentics.github.io/arena/arena.html?tab=customize">Customize your Nyborg</a></h2>
-          <p>Pick a behavior and a build, set the seed, then watch the match. Every setup gets a link you can share.</p>
-          <span class="go" aria-hidden="true">Open Customize →</span>
-        </div>
-      </li>
-      <li>
-        <div class="card link">
-          <h2><a href="https://starscream-agentics.github.io/arena/arena.html">Tank Arena</a></h2>
-          <p>Watch a live tank match in your browser.</p>
-          <span class="go" aria-hidden="true">Watch now →</span>
-        </div>
-      </li>
-      <li>
-        <div class="card soon">
-          <h2>Racing</h2>
-          <p>A second game for Nyborgs. Not built yet.</p>
-          <span class="badge">Coming soon</span>
-        </div>
-      </li>
-    </ul>
-    </div>
+    <section class="wrap hero">
+      <div>
+        <p class="eyebrow">A Coastal Agentics project</p>
+        <h1>Nyborgs</h1>
+        <p class="lede">Customizable agents that learn to play. Watch them compete live in your browser.</p>
+      </div>
+      <img class="art" src="nyborgs.svg" width="340" height="138" alt="Three Nyborgs: round cream heads, two dot eyes, and red, blue and yellow yarn hair.">
+    </section>
+
+    <section class="wrap section" aria-labelledby="what">
+      <h2 id="what">What is a Nyborg?</h2>
+      <ul class="traits">
+        <li><strong>Customizable</strong> A round cream head, two dot eyes and chunky yarn hair in primary colours.</li>
+        <li><strong>Fair by design</strong> Every Nyborg gets the same point budget for its stats. Cosmetics never affect stats.</li>
+        <li><strong>One Nyborg, any arena</strong> A Nyborg is built to train in any arena: tank and racing today, more later.</li>
+      </ul>
+    </section>
+
+    <section class="wrap section" aria-labelledby="play">
+      <h2 id="play">Watch them play</h2>
+      <ul class="cards">
+        <li>
+          <div class="card">
+            <p class="card-tag">Live</p>
+            <h3><a href="/arena/arena.html">Tank Arena</a></h3>
+            <p>Two Nyborgs face off in tanks in a bounded arena, live in your browser. Same link, same match, every time.</p>
+            <span class="go" aria-hidden="true">Watch now →</span>
+          </div>
+        </li>
+        <li>
+          <div class="card">
+            <p class="card-tag">Live</p>
+            <h3><a href="/arena/arena.html?game=racing">Kart racing</a></h3>
+            <p>Four Nyborgs race karts around the Ring, each with its own driving style.</p>
+            <span class="go" aria-hidden="true">Watch the race →</span>
+          </div>
+        </li>
+        <li>
+          <div class="card">
+            <p class="card-tag">Try it</p>
+            <h3><a href="/arena/arena.html?tab=customize">Customize a match</a></h3>
+            <p>Pick a behavior and a build, set the seed, then watch the match. Every setup gets a link you can share.</p>
+            <span class="go" aria-hidden="true">Open Customize →</span>
+          </div>
+        </li>
+      </ul>
+      <p class="more">The games run in <a href="/arena/">Arena</a>, our open simulation project. What changed and why: <a href="/arena/fieldnotes.html">field notes</a>.</p>
+    </section>
+
+    <section class="wrap section" aria-labelledby="who">
+      <h2 id="who">Who makes Nyborgs</h2>
+      <div class="prose">
+        <p>Nyborgs are Nye Warburton's characters and a project of <a href="/">Coastal Agentics</a>: behavioral design for agents, from Savannah, Georgia.</p>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <div class="wrap">
-      <span>Starscream Agentics</span>
-      <nav aria-label="Links">
-        <a href="https://coastal-agentics.github.io">Coastal Agentics</a>
-        <a href="https://starscream-agentics.github.io/arena/fieldnotes.html">Field notes</a>
-        <a href="https://github.com/starscream-agentics">GitHub</a>
-      </nav>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p class="footer-brand"><img src="logo.svg" alt="" width="32" height="32"> <span><strong>Coastal Agentics</strong> · Behavioral design for agents · Savannah, Georgia</span></p>
+      <p class="footer-links"><a href="/">Coastal Agentics</a> <a href="/nyborgs/">Nyborgs</a> <a href="/arena/">Arena</a> <a href="/arena/fieldnotes.html">Field notes</a> <a href="https://github.com/Coastal-Agentics/nyborgs">Source on GitHub</a></p>
+      <p class="legal-line">© 2026 Nye Warburton · Nyborg characters, art and logos: all rights reserved</p>
     </div>
   </footer>
 </body>
