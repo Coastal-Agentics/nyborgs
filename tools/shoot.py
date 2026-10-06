@@ -21,7 +21,8 @@ with sync_playwright() as p:
     pg = b.new_page()
     for url in ['https://coastal-agentics.github.io/arena/arena.html?tab=customize',
                 'https://coastal-agentics.github.io/arena/arena.html',
-                'https://coastal-agentics.github.io/arena/arena.html?game=racing']:
+                'https://coastal-agentics.github.io/arena/arena.html?game=racing',
+                'https://coastal-agentics.github.io/arena/customizer.html']:
         resp = pg.goto(url); pg.wait_for_timeout(2500)
         st = pg.evaluate("""() => ({
           customizeSelected: document.getElementById('tab-customize')?.getAttribute('aria-selected'),

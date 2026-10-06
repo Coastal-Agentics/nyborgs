@@ -6,6 +6,7 @@ Served by GitHub Pages at <https://coastal-agentics.github.io/nyborgs/> from the
 
 - Tank Arena: [/arena/arena.html](https://coastal-agentics.github.io/arena/arena.html)
 - Kart racing: [/arena/arena.html?game=racing](https://coastal-agentics.github.io/arena/arena.html?game=racing)
+- Nyborg Customizer: [/arena/customizer.html](https://coastal-agentics.github.io/arena/customizer.html)
 - Customize a match: [/arena/arena.html?tab=customize](https://coastal-agentics.github.io/arena/arena.html?tab=customize)
 - Field notes: [/arena/fieldnotes.html](https://coastal-agentics.github.io/arena/fieldnotes.html)
 
