@@ -4,10 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nyborgs · A Coastal Agentics project</title>
-  <meta name="description" content="Nyborgs, a Coastal Agentics project: customizable agents with round cream heads, dot eyes and chunky yarn hair. Every Nyborg gets the same point budget; watch them in Tank Arena and kart racing, live in your browser.">
+  <meta name="description" content="Nyborgs, a Coastal Agentics project: make your own Nyborg (round cream head, dot eyes, fuzzy hair), give it a build, and watch it race karts or drive a tank against the house Nyborgs, live in your browser.">
   <meta name="theme-color" content="#EEF2F6">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="flock.js" defer></script>
+  <script>
+    // Welcome back: if this browser has Nyborgs from the app (same origin, keys arena.nyborg.*),
+    // greet the selected one by name. Read-only; any problem leaves the page as it is.
+    document.addEventListener("DOMContentLoaded", () => {
+      try {
+        const index = JSON.parse(localStorage.getItem("arena.nyborg.index") || "null");
+        const id = index && (index.selected || (index.order || [])[0]);
+        const n = id && JSON.parse(localStorage.getItem("arena.nyborg.p." + id) || "null");
+        const name = n && typeof n.name === "string" ? n.name.trim().slice(0, 40) : "";
+        if (!name) return;
+        document.getElementById("cta").textContent = "Play with " + name + " ▶";
+        const w = document.getElementById("welcome");
+        w.textContent = "Welcome back, " + name + ".";
+        w.hidden = false;
+      } catch (e) { /* no storage, or nothing readable: keep the default */ }
+    });
+  </script>
   <!-- Static page: no build step, no framework, no trackers. Theme tokens follow coastal-agentics.github.io/style.css. -->
   <style>
     :root {
@@ -49,6 +66,10 @@
     h1 { margin: 0; font-size: clamp(2.25rem, 6vw, 4rem); line-height: 1.08; letter-spacing: -0.02em; font-weight: 700; }
     .lede { max-width: 34rem; margin: 1.25rem 0 0; font-size: 1.2rem; color: var(--ink-soft); }
     .art { flex: 0 0 auto; width: min(340px, 40vw); height: auto; }
+    .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; margin: 1.75rem 0 0; }
+    .button { display: inline-block; padding: 0.8rem 1.5rem; border-radius: 999px; background: var(--c); color: #fff; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px rgba(52, 85, 123, 0.25); }
+    .button:hover { background: var(--overlap); color: #fff; }
+    .cta .welcome { margin: 0; color: var(--ink-soft); }
 
     main { flex: 1; padding-bottom: clamp(3rem, 7vw, 5rem); }
     .section { padding-block: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--line); }
@@ -114,49 +135,50 @@
       <div>
         <p class="eyebrow">A Coastal Agentics project</p>
         <h1>Nyborgs</h1>
-        <p class="lede">Customizable agents that learn to play. Watch them compete live in your browser.</p>
+        <p class="lede">Make your own Nyborg, give it a build, and watch it race karts or drive a tank against the house Nyborgs, live in your browser.</p>
+        <p class="cta"><a class="button" id="cta" href="/arena/play/">Make your Nyborg</a> <span class="welcome" id="welcome" hidden></span></p>
       </div>
-      <img class="art" src="nyborgs.svg" width="340" height="138" alt="Three Nyborgs: round cream heads, two dot eyes, and red, blue and yellow yarn hair.">
+      <img class="art" src="nyborgs.png" width="300" height="122" alt="Three Nyborgs: round cream heads, two dot eyes, and fuzzy hair: a red shaggy mop, a blue fringe and a yellow pom.">
     </section>
 
     <section class="wrap section" aria-labelledby="what">
       <h2 id="what">What is a Nyborg?</h2>
       <ul class="traits">
-        <li><strong>Customizable</strong> A round cream head, two dot eyes and chunky yarn hair in primary colours.</li>
-        <li><strong>Fair by design</strong> Every Nyborg gets the same point budget for its stats. Cosmetics never affect stats.</li>
+        <li><strong>Yours to make</strong> A round cream head, two dot eyes and fuzzy hair: a shaggy mop, a pom cloud, a Muppet fringe, a tousled crest or classic yarn, in any colour.</li>
+        <li><strong>Fair by design</strong> Every Nyborg gets the same nine points for its stats. Its look never changes how it plays.</li>
         <li><strong>One Nyborg, any arena</strong> A Nyborg is built to train in any arena: tank and racing today, more later.</li>
       </ul>
     </section>
 
     <section class="wrap section" aria-labelledby="play">
-      <h2 id="play">Watch them play</h2>
+      <h2 id="play">Play</h2>
       <ul class="cards">
         <li>
           <div class="card">
-            <p class="card-tag">Live</p>
-            <h3><a href="/arena/arena.html">Tank Arena</a></h3>
-            <p>Two Nyborgs face off in tanks in a bounded arena, live in your browser. Same link, same match, every time.</p>
-            <span class="go" aria-hidden="true">Watch now →</span>
+            <p class="card-tag">Racing</p>
+            <h3><a href="/arena/play/#/play/racing">Race</a></h3>
+            <p>Your Nyborg and up to three house Nyborgs, three laps of the Ring. Pick the lineup, then watch it live.</p>
+            <span class="go" aria-hidden="true">Race ▶</span>
           </div>
         </li>
         <li>
           <div class="card">
-            <p class="card-tag">Live</p>
-            <h3><a href="/arena/arena.html?game=racing">Kart racing</a></h3>
-            <p>Four Nyborgs race karts around the Ring, each with its own driving style.</p>
-            <span class="go" aria-hidden="true">Watch the race →</span>
+            <p class="card-tag">Tank Arena</p>
+            <h3><a href="/arena/play/#/play/tank">Tank</a></h3>
+            <p>Two Nyborgs, two tanks, one arena. Same link, same match, every time, so you can share the good ones.</p>
+            <span class="go" aria-hidden="true">Tank ▶</span>
           </div>
         </li>
         <li>
           <div class="card">
-            <p class="card-tag">Try it</p>
-            <h3><a href="/arena/customizer.html">Customize your Nyborgs</a></h3>
-            <p>Give each Nyborg a look, then set its build and behavior for every game. Saved in your browser; pick two for a tank match.</p>
-            <span class="go" aria-hidden="true">Open the Customizer →</span>
+            <p class="card-tag">Your Nyborgs</p>
+            <h3><a href="/arena/play/">Your Nyborgs</a></h3>
+            <p>Give each Nyborg a name, a hair style and a build for every arena. Saved in your browser, with export and import.</p>
+            <span class="go" aria-hidden="true">Open the app →</span>
           </div>
         </li>
       </ul>
-      <p class="more">The games run in <a href="/arena/">Arena</a>, our open simulation project. Want a specific matchup? <a href="/arena/arena.html?tab=customize">Customize a tank match</a>. What changed and why: <a href="/arena/fieldnotes.html">field notes</a>.</p>
+      <p class="more">The games run in <a href="/arena/">Arena</a>, our open simulation project. What changed and why: <a href="/arena/fieldnotes.html">field notes</a>.</p>
     </section>
 
     <section class="wrap section" aria-labelledby="who">
